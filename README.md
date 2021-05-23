@@ -13,7 +13,7 @@ Given tab-separated-variable output with candidates' program info from Google fo
 * Python 3 (used with Python 3.7) with packages docx, docxcompose, mailmerge (, datetime, math, subprocess)
 * A LaTeX installation, including pdflatex
 * Word templates adjform.docx, overallform.docx, repertoirepieceform.docx, requiredpieceform.docx in the same directory as python script
-* Assumes a Unix-based OS (I believe this is easily generalized)  
+* Assumes a \*nix-like OS (I believe this is easily generalized)  
 
 #### How to use
 * Edit `PARAMETERS` section with data for current year:  
@@ -41,6 +41,7 @@ Given completed adjudication forms from jurors,
 #### Dependencies
 * Python 3 (used with Python 3.7) with packages docx, docxcompose (, copy, glob, json, os, random, subprocess)
 * A Latex installation, including pdflatex
+* Assumes a \*nix-like OS (I believe this is easily generalized)
 
 #### How to use
 * Edit `Parameters` section with data for current year:
