@@ -1,6 +1,5 @@
 # adjforms
 creating and parsing adjudication forms for the recording stage of the GCNA exam  
-***NB : current files assume old numerical grading system***
 
 ***
 ### create_adjforms.py
@@ -30,6 +29,7 @@ Given tab-separated-variable output with candidates' program info from Google fo
 
 ***
 ### parse_adjforms.py
+***NB : current files assume old numerical grading system***  
 Original version winter 2021 by M. Pan  
 Given completed adjudication forms from jurors,
 * extract grades and overall pass/fail decision from each set of forms, print alerts for missing grades  
