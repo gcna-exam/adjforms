@@ -1,5 +1,6 @@
 # adjforms
 creating and parsing adjudication forms for the recording stage of the GCNA exam  
+***NB : current code assumes old numerical grading system***  
 
 ***
 ### create_adjforms.py
@@ -12,7 +13,7 @@ Given tab-separated-variable output with candidates' program info from Google fo
 #### Dependencies  
 * Python 3 (used with Python 3.7) with packages docx, docxcompose, mailmerge (, datetime, math, subprocess)
 * A LaTeX installation, including pdflatex
-* Word templates adjform_pf.docx, overallform.docx, repertoirepieceform.docx, requiredpieceform.docx in the same directory as python script
+* Word templates adjform.docx (replace with adjform_pf.docx for pass/fail grading), overallform.docx, repertoirepieceform.docx, requiredpieceform.docx in the same directory as python script
 * Assumes a \*nix-like OS (I believe this is easily generalized)  
 
 #### How to use
@@ -29,7 +30,6 @@ Given tab-separated-variable output with candidates' program info from Google fo
 
 ***
 ### parse_adjforms.py
-***NB : current files assume old numerical grading system***  
 Original version winter 2021 by M. Pan  
 Given completed adjudication forms from jurors,
 * extract grades and overall pass/fail decision from each set of forms, print alerts for missing grades  
