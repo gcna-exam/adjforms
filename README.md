@@ -12,7 +12,7 @@ Given tab-separated-variable output with candidates' program info from Google fo
 #### Dependencies  
 * Python 3 (used with Python 3.7) with packages docx, docxcompose, mailmerge (, datetime, math, subprocess)
 * A LaTeX installation, including pdflatex
-* Word templates adjform.docx, overallform.docx, repertoirepieceform.docx, requiredpieceform.docx in the same directory as python script
+* Word templates adjform_pf.docx, overallform.docx, repertoirepieceform.docx, requiredpieceform.docx in the same directory as python script
 * Assumes a \*nix-like OS (I believe this is easily generalized)  
 
 #### How to use
