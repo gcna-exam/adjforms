@@ -21,11 +21,7 @@ Given tab-separated-variable output with candidates' program info from Google fo
     * Change `examyear` to year for this exam cycle  
     * Change `jurors` to list of current jurors  
     * Change `tsvfile` to name of file containing Google form program info, supplied by candidates  
-* If desired, edit list `forms_to_make` in `FORMS TO GENERATE` section to contain only the forms desired:  
-    * 'adj' : adjudication forms  
-    * 'rep' : repertoire piece form  
-    * 'req' : required piece form  
-    * 'prog' : program listing  
+* If desired, edit list `forms_to_make` in `FORMS TO GENERATE` section to contain only the outputs desired  
 * `python3 create_adjforms.py`
 
 ***
@@ -50,9 +46,8 @@ Given completed adjudication forms from jurors,
      * Change `voting` to list of designated voting jurors
      * Change `conflict` to contain all juror recusals; keys are candidate numbers with recusals and values are list of jurors recused for that candidate
      * Change `labelstr` as needed to 'prelim' (for results before juror discussion) or 'final' (for final results)  
-* Remove from current working directory all juror forms that are previous versions or otherwise should not be used; check that all latest-version juror forms are in current working directory  
-* Check that all juror forms have filenames that include the juror's name 
-* Check that no (latest-version) juror forms are open in Word
+* Remove from current working directory all juror forms that are previous versions or otherwise should not be used  
+* Check that all latest-version juror forms are in current working directory, have filenames that include the juror's name, and are not open in Word
 * `python3 parse_adjforms.py`
 * Keep an eye on the standard output; any missing grades or missing forms will be flagged there
 
