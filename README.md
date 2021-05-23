@@ -1,5 +1,6 @@
 # adjforms
-creating and parsing adjudication forms for the recording stage of the GCNA exam
+creating and parsing adjudication forms for the recording stage of the GCNA exam  
+***NB : current files assume old numerical grading system***
 
 ***
 ### create_adjforms.py
@@ -36,7 +37,6 @@ Given completed adjudication forms from jurors,
 * create PDF summary of voting jurors' decisions for all candidates  
 * create JSON summary of lists of voting jurors and overall pass/fail results for all candidates
 * create JSON summary of all grades
-**NB : current files assume old numerical grading system**
 
 #### Dependencies
 * Python 3 (used with Python 3.7) with packages docx, docxcompose (, copy, glob, json, os, random, subprocess)
