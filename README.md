@@ -50,7 +50,8 @@ Given completed adjudication forms from jurors,
      * Change `voting` to list of designated voting jurors
      * Change `conflict` to contain all juror recusals; keys are candidate numbers with recusals and values are list of jurors recused for that candidate
      * Change `labelstr` as needed to 'prelim' (for results before juror discussion) or 'final' (for final results)  
-* Remove from current working directory all juror forms that are previous versions or otherwise should not be used; check that all latest-version juror forms are in current working directory
+* Remove from current working directory all juror forms that are previous versions or otherwise should not be used; check that all latest-version juror forms are in current working directory  
+* Check that all juror forms have filenames that include the juror's name 
 * Check that no (latest-version) juror forms are open in Word
 * `python3 parse_adjforms.py`
 * Keep an eye on the standard output; any missing grades or missing forms will be flagged there
