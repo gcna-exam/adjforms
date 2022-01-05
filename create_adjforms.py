@@ -5,7 +5,21 @@ Create forms for recording stage adjudications, including
 -- repertoire piece form for each juror
 -- pdf program listing summary including all candidates
 
+Created by M. Pan, fall 2020
+Edited fall 2021/winter 2022
+
+
+USAGE:
+
+Move all four .docx templates, the .tsv containing the Google form responses,
+and a copy of create_adjforms.py, into the same directory.
+Make that directory the current working directory.
+
+$ python3 create_adjforms.py
+
+
 THINGS TO BE EDITED EACH YEAR:
+
 -- "PARAMETERS" section
 -- list of forms_to_make
 '''
@@ -19,7 +33,9 @@ from datetime import date
 from docxcompose.composer import Composer
 from docx import Document
 
+import glob
 import math
+import os
 import subprocess
 
 
@@ -57,7 +73,7 @@ def tsv_to_piecedict(tsvfile):
 
     else:
         
-        entries = [line.strip().split('\t') for line in tsv[1:]]
+        entries = [line.strip().split('\t') for line in tsv[1:] if line.strip()]
         candnums = list(set([line[1] for line in entries]))
 
         for num in candnums:
@@ -97,25 +113,50 @@ def tsv_to_piecedict(tsvfile):
 ##### PARAMETERS #####    
 
 # names of .docx with mail merge fields
-template1 = 'adjform.docx'
+template1 = 'adjform_pf.docx'
 template2 = 'overallform.docx'
 template3 = 'requiredpieceform.docx'
 template4 = 'repertoirepieceform.docx'
 
-# file with responses from program listing form
-tsvfile = '2021 GCNA Carillonneur Exam Recording Program (Responses) - Form Responses 1.tsv'
+# file with responses from program listing form 
+tsvfile = '2022 GCNA Carillonneur Exam Recording Program (Responses) - Form Responses 1.tsv' ### !!!CHANGE THIS!!!
 piecedict = tsv_to_piecedict(tsvfile)
 
-examyear = '2021'
-jurors = ['cortez','dzuris','ellis','harwood','hunsberger','lehrer','lens']
+# year-specific data:
+### !!!CHANGE THIS!!!
+# year in which exam cycle finishes
+examyear = '2022' 
+
+### !!!CHANGE THIS!!!
+# all jurors in committee
+jurors = ['hunsberger','lee','lehrer','lens','lukyanova','macoska','tam'] 
+
 candidates = sorted(list(piecedict.keys()),key=int)
-if '10' in candidates: candidates.remove('10')
+if '16' in candidates: candidates.remove('16')
+
+### !!!CHANGE THIS!!!
+# enforce consistent piece titles in the required piece form
+# pick a word likely to appear in any description of this piece,
+#    but not in any description of any other piece
+# associate it with the specific title to be used in the required piece form
+req_piece_std_format = {
+    'burlesca': 'Burlesca',
+    'chanticleer': 'Call of the Chanticleer',
+    'fugue': 'Cortege and Fugue',
+    'arlington': 'Poème pour Arlington',
+    'valse': 'Valse Romantique',
+    'braes': "Ye Banks and Braes"}
 
 
 #############################
 ##### FORMS TO GENERATE #####
 
-forms_to_make = ['prog']#['rep','req','adj','prog']
+# 'adj' : adjudication forms
+# 'rep' : repertoire piece forms
+# 'req' : required piece forms
+# 'prog' : program listings
+
+forms_to_make = ['rep','req','adj','prog']
     
 
 ##############################
@@ -134,6 +175,12 @@ for candidate in candidates:
         try:
             tech = [x['name'] for x in piecelist if x['tech'] == True][0]
             exp = [x['name'] for x in piecelist if x['exp'] == True][0]
+            techkey = [x for x in req_piece_std_format.keys() if x in tech.lower()]
+            expkey = [x for x in req_piece_std_format.keys() if x in exp.lower()]
+            if techkey:
+                tech = req_piece_std_format[techkey[0]]
+            if expkey:
+                exp = req_piece_std_format[expkey[0]]
         except:
             print('missing required piece for candidate '+candidate)
             tech = ''
@@ -182,9 +229,17 @@ for candidate in candidates:
 
         # save one copy for each juror
         for juror in jurors:
-            composer.save(examyear+'_candidate'+candidate+'_'+juror+'.docx')
 
-        subprocess.run('rm '+examyear+'_'+candidate+'*.docx',shell=True)
+            thisadjfile = examyear+'_candidate'+candidate+'_'+juror+'.docx'
+            composer.save(thisadjfile)
+
+            if not os.path.exists(juror):
+                os.mkdir(juror)
+
+            os.replace(thisadjfile,os.path.join(juror,thisadjfile))
+
+        for adjfile in glob.glob(examyear+'_'+candidate+'*.docx'):
+            os.remove(adjfile)
 
         
 ###############################
@@ -212,8 +267,17 @@ if 'req' in forms_to_make:
 
     # save one copy per juror
     for juror in jurors:
-        reqpieceform.save(examyear+'_requiredpieceform_'+juror+'.docx')
 
+        reqfile = examyear+'_requiredpieceform_'+juror+'.docx'
+        reqpieceform.save(reqfile)
+
+        if not os.path.exists(juror):
+            os.mkdir(juror)
+
+        os.replace(reqfile,os.path.join(juror,reqfile))
+
+    os.remove(examyear+'_reqpieceform.docx')
+        
 
 #################################
 ##### REPERTOIRE PIECE FORM #####
@@ -239,8 +303,17 @@ if 'rep' in forms_to_make:
 
     # save one copy per juror
     for juror in jurors:
-        repertoireform.save(examyear+'_repertoirepieceform_'+juror+'.docx')
 
+        repfile = examyear+'_repertoirepieceform_'+juror+'.docx'
+        repertoireform.save(repfile)
+
+        if not os.path.exists(juror):
+            os.mkdir(juror)
+
+        os.replace(repfile,os.path.join(juror,repfile))
+        
+    os.remove(examyear+'_reppieceform.docx')
+    
 
 ############################
 ##### PROGRAMS LISTING #####
@@ -262,6 +335,7 @@ if 'prog' in forms_to_make:
         '\\addtolength{\\textheight}{1.7in}\n', \
         '\n', \
         '\\renewcommand\\familydefault{\\sfdefault}\n', \
+        '\\renewcommand{\\arraystretch}{1.1}\n', \
         '\n', \
         '\\begin{document}\n', \
         '\n', \
@@ -280,7 +354,7 @@ if 'prog' in forms_to_make:
 
         # create tabular env for each candidate's program
         thisprog = piecedict[candidate]
-        thisproglist = ['\\begin{tabular}{p{0.13\\textwidth}p{0.02\\textwidth}<{\\raggedleft\\arraybackslash}p{0.38\\textwidth}p{0.2\\textwidth}p{0.03\\textwidth}}\n']
+        thisproglist = ['\\begin{tabular}{p{0.13\\textwidth}p{0.02\\textwidth}<{\\raggedleft\\arraybackslash}p{0.38\\textwidth}<{\\raggedright\\arraybackslash}p{0.25\\textwidth}<{\\raggedright\\arraybackslash}p{0.03\\textwidth}}\n']
         piececount = 0
 
         for piece in thisprog:
@@ -310,5 +384,5 @@ if 'prog' in forms_to_make:
         for line in proglines:
             _ = fh.write(line)
 
-    subprocess.run(['pdflatex',progfile])
+    subprocess.run('pdflatex '+progfile+' > pdflatex.log 2>&1',shell=True)
     
