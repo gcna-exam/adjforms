@@ -1,19 +1,19 @@
 # adjforms
 creating and parsing adjudication forms for the recording stage of the GCNA exam  
-***NB : current code assumes old numerical grading system***  
+current code assumes new P/F grading system
 
 ***
 ### create_adjforms.py
-Original version fall 2020 by M. Pan  
+Original version fall 2020 by M. Pan; edited by M. Pan fall 2021/winter 2022  
 Given tab-separated-variable output with candidates' program info from Google form,  
 * create Word (.docx) adjudication forms for each candidate and juror  
 * create required and repertoire piece forms for each juror  
 * create PDF program listing of all candidates' recordings
 
 #### Dependencies  
-* Python 3 (used with Python 3.7) with packages docx, docxcompose, mailmerge (, datetime, math, subprocess)
+* Python 3 (used with Python 3.8) with packages docx, docxcompose, mailmerge (, datetime, glob, math, os, subprocess)
 * A LaTeX installation, including pdflatex
-* Word templates adjform.docx (replace with adjform_pf.docx for pass/fail grading), overallform.docx, repertoirepieceform.docx, requiredpieceform.docx in the same directory as python script
+* Word templates adjform_pf.docx (replace with adjform.docx for numerical grading), overallform.docx, repertoirepieceform.docx, requiredpieceform.docx in the same directory as python script
 * Assumes a \*nix-like OS (I believe this is easily generalized)  
 
 #### How to use
@@ -21,7 +21,8 @@ Given tab-separated-variable output with candidates' program info from Google fo
     * Change `examyear` to year for this exam cycle  
     * Change `jurors` to list of current jurors  
     * Change `tsvfile` to name of file containing Google form program info, supplied by candidates  
-* If desired, edit list `forms_to_make` in `FORMS TO GENERATE` section to contain only the outputs desired  
+    * Change `req_piece_std_format` to contain standard forms of this year's required piece titles  
+* If needed, edit list `forms_to_make` in `FORMS TO GENERATE` section to contain only the outputs desired  
 * `python3 create_adjforms.py`
 
 ***
