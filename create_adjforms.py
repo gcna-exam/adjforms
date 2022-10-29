@@ -123,6 +123,7 @@ tsvfile = '2022 GCNA Carillonneur Exam Recording Program (Responses) - Form Resp
 piecedict = tsv_to_piecedict(tsvfile)
 
 # year-specific data:
+
 ### !!!CHANGE THIS!!!
 # year in which exam cycle finishes
 examyear = '2022' 
@@ -132,7 +133,6 @@ examyear = '2022'
 jurors = ['hunsberger','lee','lehrer','lens','lukyanova','macoska','tam'] 
 
 candidates = sorted(list(piecedict.keys()),key=int)
-if '16' in candidates: candidates.remove('16')
 
 ### !!!CHANGE THIS!!!
 # enforce consistent piece titles in the required piece form
